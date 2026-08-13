@@ -15,7 +15,7 @@ Imports System.Reflection
 <Assembly: System.Reflection.AssemblyCompanyAttribute("VLTKBot"),  _
  Assembly: System.Reflection.AssemblyConfigurationAttribute("Release"),  _
  Assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+684824a6c1e911bb7e8aeab468081c57fa21316b"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("VLTKBot"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("VLTKBot"),  _
  Assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0"),  _

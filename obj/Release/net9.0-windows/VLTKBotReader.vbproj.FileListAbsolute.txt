@@ -22,3 +22,27 @@ C:\Users\Administrator\Downloads\GameBot_VLTK\obj\Release\net9.0-windows\VLTKBot
 C:\Users\Administrator\Downloads\GameBot_VLTK\obj\Release\net9.0-windows\refint\VLTKBot.dll
 C:\Users\Administrator\Downloads\GameBot_VLTK\obj\Release\net9.0-windows\VLTKBotReader.genruntimeconfig.cache
 C:\Users\Administrator\Downloads\GameBot_VLTK\obj\Release\net9.0-windows\ref\VLTKBot.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\x86\leptonica-1.82.0.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\x86\tesseract50.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\x64\leptonica-1.82.0.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\x64\tesseract50.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\VLTKBot.exe
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\VLTKBot.deps.json
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\VLTKBot.runtimeconfig.json
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\VLTKBot.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\OpenCvSharp.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\Tesseract.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\runtimes\win-x64\native\OpenCvSharpExtern.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\runtimes\win-x64\native\opencv_videoio_ffmpeg490_64.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\runtimes\win-x86\native\OpenCvSharpExtern.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\build\Release\net9.0-windows\runtimes\win-x86\native\opencv_videoio_ffmpeg490.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\obj\Release\net9.0-windows\VLTKBotReader.vbproj.AssemblyReference.cache
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\obj\Release\net9.0-windows\VLTKBotReader.GeneratedMSBuildEditorConfig.editorconfig
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\obj\Release\net9.0-windows\VLTKBotReader.AssemblyInfoInputs.cache
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\obj\Release\net9.0-windows\VLTKBotReader.AssemblyInfo.vb
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\obj\Release\net9.0-windows\VLTKBotReader.vbproj.CoreCompileInputs.cache
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\obj\Release\net9.0-windows\VLTKBotR.B770BB05.Up2Date
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\obj\Release\net9.0-windows\VLTKBot.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\obj\Release\net9.0-windows\refint\VLTKBot.dll
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\obj\Release\net9.0-windows\VLTKBotReader.genruntimeconfig.cache
+D:\Source Code\Tool-GameAuto\GameBot_VLTK1\obj\Release\net9.0-windows\ref\VLTKBot.dll

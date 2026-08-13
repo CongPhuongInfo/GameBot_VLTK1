@@ -273,11 +273,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Administrator\\Downloads\\GameBot_VLTK\\VLTKBotReader.vbproj",
+      "projectUniqueName": "D:\\Source Code\\Tool-GameAuto\\GameBot_VLTK1\\VLTKBotReader.vbproj",
       "projectName": "VLTKBot",
-      "projectPath": "C:\\Users\\Administrator\\Downloads\\GameBot_VLTK\\VLTKBotReader.vbproj",
+      "projectPath": "D:\\Source Code\\Tool-GameAuto\\GameBot_VLTK1\\VLTKBotReader.vbproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Administrator\\Downloads\\GameBot_VLTK\\obj\\",
+      "outputPath": "D:\\Source Code\\Tool-GameAuto\\GameBot_VLTK1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"

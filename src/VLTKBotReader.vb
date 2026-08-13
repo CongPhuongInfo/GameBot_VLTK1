@@ -285,6 +285,10 @@ Public Class VLTKBot
     Private lblMpVal As Label
     Private lblNlVal As Label
     Private lblExpVal As Label
+    Private lblHpNum  As Label
+    Private lblMpNum  As Label
+    Private lblNlNum  As Label
+    Private lblExpNum As Label
     Private lblCoordVal As Label
     Private lblMapVal   As Label
 
@@ -361,6 +365,7 @@ Public Class VLTKBot
     Private _lastMousePt    As System.Drawing.Point
     Private _pickMode       As String = ""
     Private _pickOverlay    As Form = Nothing
+    Private _ocrStatCounter As Integer = 0
     Private _ocrEngine      As TesseractEngine = Nothing
     Private _lastHpPct      As Integer = 100
     Private _lastMpPct      As Integer = 100
@@ -499,13 +504,13 @@ Public Class VLTKBot
         Me.Controls.Add(grpStat)
 
         ' HP
-        AddStatRow(grpStat, "HP",  8,   16, Color.FromArgb(60, 200, 60),  pbHp,  lblHpVal)
+        AddStatRow(grpStat, "HP",  8,   16, Color.FromArgb(60, 200, 60),  pbHp,  lblHpVal,  lblHpNum)
         ' MP
-        AddStatRow(grpStat, "MP",  290, 16, Color.FromArgb(220, 60, 60), pbMp,  lblMpVal)
+        AddStatRow(grpStat, "MP",  290, 16, Color.FromArgb(220, 60, 60), pbMp,  lblMpVal,  lblMpNum)
         ' Noi Luc
-        AddStatRow(grpStat, "NL",  8,   46, Color.FromArgb(60, 120, 255), pbNl,  lblNlVal)
+        AddStatRow(grpStat, "NL",  8,   46, Color.FromArgb(60, 120, 255), pbNl,  lblNlVal,  lblNlNum)
         ' EXP
-        AddStatRow(grpStat, "EXP", 290, 46, Color.FromArgb(200, 200, 200), pbExp, lblExpVal)
+        AddStatRow(grpStat, "EXP", 290, 46, Color.FromArgb(200, 200, 200), pbExp, lblExpVal, lblExpNum)
 
         ' Toa do + ban do
         lblCoordVal = New Label() With {.Text = "(?, ?)", .Location = New System.Drawing.Point(690, 18),
@@ -736,13 +741,16 @@ Public Class VLTKBot
     End Sub
 
     Private Sub AddStatRow(parent As Control, label As String, x As Integer, y As Integer,
-                             barColor As Color, ByRef pb As ProgressBar, ByRef lval As Label)
+                             barColor As Color, ByRef pb As ProgressBar, ByRef lval As Label, ByRef lnum As Label)
         Dim lbl As New Label() With {.Text = label, .Location = New System.Drawing.Point(x, y + 2), .Size = New System.Drawing.Size(30, 16)}
         lval = New Label() With {.Text = "---", .Location = New System.Drawing.Point(x + 32, y + 2),
-                                  .Size = New System.Drawing.Size(48, 16), .ForeColor = barColor}
+                                  .Size = New System.Drawing.Size(40, 16), .ForeColor = barColor}
+        lnum = New Label() With {.Text = "", .Location = New System.Drawing.Point(x + 74, y + 2),
+                                  .Size = New System.Drawing.Size(90, 16), .ForeColor = Color.FromArgb(170, 170, 170),
+                                  .Font = New Font("Consolas", 7.5)}
         pb = New ProgressBar() With {.Location = New System.Drawing.Point(x, y + 20),
                                       .Size = New System.Drawing.Size(270, 12), .Maximum = 100}
-        parent.Controls.AddRange({lbl, lval, pb})
+        parent.Controls.AddRange({lbl, lval, lnum, pb})
     End Sub
 
     Private Function MakeBtn(text As String, x As Integer, y As Integer, w As Integer, h As Integer) As Button
@@ -925,6 +933,16 @@ Public Class VLTKBot
         If _ocrEngine IsNot Nothing Then
             lblCoordVal.Text = ReadOcrText(rc, txtCoordX, txtCoordY, txtCoordW, txtCoordH, True)
             lblMapVal.Text   = ReadOcrText(rc, txtMapX,   txtMapY,   txtMapW,   txtMapH,   False)
+
+            ' Doc so thuc (vd "180/180") de len tren thanh HP/MP/NL/EXP qua OCR.
+            ' Chi doc moi vong tick thu 3 de do tai CPU, vi OCR nang hon nhieu so voi scan mau.
+            _ocrStatCounter = (_ocrStatCounter + 1) Mod 3
+            If _ocrStatCounter = 0 Then
+                lblHpNum.Text  = ReadOcrText(rc, txtHpX,  txtHpY,  txtHpW,  txtHpH,  True)
+                lblMpNum.Text  = ReadOcrText(rc, txtMpX,  txtMpY,  txtMpW,  txtMpH,  True)
+                lblNlNum.Text  = ReadOcrText(rc, txtNlX,  txtNlY,  txtNlW,  txtNlH,  True)
+                lblExpNum.Text = ReadOcrText(rc, txtExpX, txtExpY, txtExpW, txtExpH, True)
+            End If
         End If
 
         ' Preview
@@ -957,18 +975,26 @@ Public Class VLTKBot
                 Dim row(rowLen - 1) As Byte
                 Marshal.Copy(bd.Scan0, row, 0, rowLen)
                 bmp.UnlockBits(bd)
+                ' Mau "day" (filled) lay tai pixel trai cung, mau "nen" (rong) lay tai pixel phai cung.
+                ' Tu dong thich ung voi BAT KY mau thanh nao (xanh/do/vang/cam...) thay vi doan mau
+                ' co dinh, vi moi client/skin VLTK co the dung mau khac nhau cho HP/MP/NL.
+                Dim fgB As Integer = row(0) : Dim fgG As Integer = row(1) : Dim fgR As Integer = row(2)
+                Dim bgB As Integer = row(rowLen - 4) : Dim bgG As Integer = row(rowLen - 3) : Dim bgR As Integer = row(rowLen - 2)
+                Dim fgBrightness As Integer = fgR + fgG + fgB
+                Dim fgBgDist      As Integer = Math.Abs(fgR - bgR) + Math.Abs(fgG - bgG) + Math.Abs(fgB - bgB)
+
+                ' Neu 2 dau giong het mau nhau -> thanh dang 100% day hoac 0% rong het
+                If fgBgDist < 30 Then
+                    Return If(fgBrightness > 90, 100, 0)
+                End If
+
                 Dim lit As Integer = 0
                 For px As Integer = 0 To bmp.Width - 1
                     Dim i As Integer = px * 4  ' BGRA order
-                    Dim b As Byte = row(i) : Dim g As Byte = row(i+1) : Dim r As Byte = row(i+2)
-                    Dim match As Boolean = False
-                    Select Case tag
-                        Case "hp"  : match = (g > 130 AndAlso r < 170 AndAlso b < 110)
-                        Case "mp"  : match = (r > 150 AndAlso g < 100 AndAlso b < 100)
-                        Case "nl"  : match = (b > 140 AndAlso r < 110 AndAlso g < 140)
-                        Case "exp" : match = (r > 140 AndAlso g > 130 AndAlso b > 110)
-                    End Select
-                    If match Then lit += 1
+                    Dim b As Integer = row(i) : Dim g As Integer = row(i + 1) : Dim r As Integer = row(i + 2)
+                    Dim distFg As Integer = Math.Abs(r - fgR) + Math.Abs(g - fgG) + Math.Abs(b - fgB)
+                    Dim distBg As Integer = Math.Abs(r - bgR) + Math.Abs(g - bgG) + Math.Abs(b - bgB)
+                    If distFg <= distBg Then lit += 1
                 Next
                 Return CInt(lit * 100 / bmp.Width)
             End Using
@@ -1000,7 +1026,7 @@ Public Class VLTKBot
                 If numbersOnly Then
                     Dim clean As New StringBuilder()
                     For Each c As Char In txt
-                        If Char.IsDigit(c) OrElse c = "," OrElse c = "(" OrElse c = ")" OrElse c = " " Then
+                        If Char.IsDigit(c) OrElse c = "," OrElse c = "(" OrElse c = ")" OrElse c = " " OrElse c = "/" Then
                             clean.Append(c)
                         End If
                     Next
@@ -1570,8 +1596,9 @@ Public Class VLTKBot
         _pickMode = CType(s, Button).Tag.ToString()
         If _pickOverlay IsNot Nothing Then _pickOverlay.Close()
         Dim over As New Form() With {.FormBorderStyle = FormBorderStyle.None, .BackColor = Color.Lime,
-                                      .TransparencyKey = Color.Lime, .Opacity = 0.35,
+                                      .Opacity = 0.35,
                                       .TopMost = True, .Cursor = Cursors.Cross,
+                                      .ShowInTaskbar = False, .KeyPreview = True,
                                       .WindowState = FormWindowState.Maximized}
         _pickOverlay = over
         Dim startPt As System.Drawing.Point : Dim dragging As Boolean = False
@@ -1591,9 +1618,10 @@ Public Class VLTKBot
         AddHandler over.MouseUp, Sub(os, me2)
             If me2.Button = MouseButtons.Left AndAlso dragging Then
                 dragging = False : selRect = MakeRect(startPt, me2.Location)
+                Dim screenRect As System.Drawing.Rectangle = over.RectangleToScreen(selRect)
                 over.Close()
                 If selRect.Width > 4 AndAlso selRect.Height > 4 Then
-                    ApplyPick(_pickMode, over.RectangleToScreen(selRect))
+                    ApplyPick(_pickMode, screenRect)
                 End If
             End If
         End Sub
@@ -1601,6 +1629,8 @@ Public Class VLTKBot
                                      If ke.KeyCode = Keys.Escape Then over.Close()
                                  End Sub
         over.Show()
+        over.Activate()
+        over.Focus()
     End Sub
 
     Private Sub ApplyPick(mode As String, r As System.Drawing.Rectangle)
